@@ -1,6 +1,7 @@
 package com.example.sakila.ui.staff
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -15,9 +16,12 @@ import java.util.Collections
 
 class StaffAdapter(
     private val onEditClick: (Staff) -> Unit,
-    private val onDeleteClick: (Staff) -> Unit
+    private val onDeleteClick: (Staff) -> Unit,
+    private val onStaffMoved: (List<Staff>) -> Unit // Add this callback
 ) : ListAdapter<Staff, StaffAdapter.StaffViewHolder>(StaffDiffCallback()),
     ItemTouchHelperAdapter {
+
+    private var itemTouchHelper: ItemTouchHelper? = null // Store the ItemTouchHelper
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false)
@@ -40,9 +44,13 @@ class StaffAdapter(
 
             editButton.setOnClickListener { onEditClick(staff) }
             deleteButton.setOnClickListener { onDeleteClick(staff) }
-            dragHandle.setOnTouchListener { _, _ ->
-                itemTouchHelper?.startDrag(this)
-                false
+
+            // Set up drag handle touch listener
+            dragHandle.setOnTouchListener { v, event ->
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    itemTouchHelper?.startDrag(this) // Start drag on ACTION_DOWN
+                }
+                false // Return false to allow other touch events
             }
         }
     }
@@ -57,7 +65,6 @@ class StaffAdapter(
         }
     }
 
-    private var itemTouchHelper: ItemTouchHelper? = null
 
     fun setItemTouchHelper(itemTouchHelper: ItemTouchHelper) {
         this.itemTouchHelper = itemTouchHelper
@@ -66,11 +73,12 @@ class StaffAdapter(
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         val newList = currentList.toMutableList()
         Collections.swap(newList, fromPosition, toPosition)
-        submitList(newList) // Important: Use submitList to update the adapter
+        submitList(newList) // Update the adapter's displayed list
+        onStaffMoved(newList) // Notify the ViewModel!
     }
 
     override fun onItemDismiss(position: Int) {
-        // Handle item dismissal (swipe to delete, if you want to implement it)
+        //  swipe to delete
     }
 }
 

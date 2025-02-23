@@ -34,9 +34,11 @@ class StaffFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(StaffViewModel::class.java)
 
+        // Initialize Adapter with the new callback
         adapter = StaffAdapter(
             onEditClick = { staff -> showEditStaffDialog(staff) },
-            onDeleteClick = { staff -> showDeleteConfirmationDialog(staff) }
+            onDeleteClick = { staff -> showDeleteConfirmationDialog(staff) },
+            onStaffMoved = { newList -> viewModel.updateStaffOrder(newList) } // Pass the callback
         )
 
         binding.staffRecyclerView.adapter = adapter
@@ -118,7 +120,7 @@ class StaffFragment : Fragment() {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition
             adapter.onItemMove(fromPosition, toPosition)
-            viewModel.updateStaffOrder(adapter.currentList)
+            // viewModel.updateStaffOrder(adapter.currentList) // Moved to Adapter.
             return true
         }
 
@@ -126,8 +128,6 @@ class StaffFragment : Fragment() {
             // No swipe-to-dismiss
         }
 
-        override fun isLongPressDragEnabled(): Boolean {
-            return false // Use drag handle
-        }
+
     }
 }

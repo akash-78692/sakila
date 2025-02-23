@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/staffFragment"
+            android:icon="@drawable/ic_staff"
+            android:title="Staff" />
+        <item
+            android:id="@+id/createRotaFragment"
+            android:icon="@drawable/ic_create_rota"
+            android:title="Create Rota" />
+        <item
+            android:id="@+id/previousRotaFragment"
+            android:icon="@drawable/ic_previous_rota"
+            android:title="Previous Rota" />
+        <item
+            android:id="@+id/productManagementFragment"
+            android:icon="@drawable/ic_product"
+            android:title="Product" />
+        <item
+            android:id="@+id/orderManagementFragment"
+            android:icon="@drawable/ic_order"
+            android:title="Order" />
+    </group>
+</menu>
