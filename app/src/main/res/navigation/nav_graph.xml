@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/staffFragment">
+    <fragment
+        android:id="@+id/staffFragment"
+        android:name="com.example.sakila.ui.staff.StaffFragment"
+        android:label="fragment_staff"
+        tools:layout="@layout/fragment_staff" />
+</navigation>
